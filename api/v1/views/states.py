@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""Module to handle RESTFul api actions"""
+"""
+Module to handle RESTFul api actions for state objects
+Methods:GET, POST, PUT and DELETE
+"""
 
 from flask import abort, jsonify, request
 import json

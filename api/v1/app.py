@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-"""Module to handle RESTFul api actions"""
+"""
+Module to handle RESTFul api actions
+Registers the blueprint to app_views which contains our url_prefix
+Our api run on localhost port 5000
+"""
 
 from flask import Flask, jsonify
 from models import storage

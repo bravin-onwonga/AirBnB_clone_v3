@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Setting up flask using BluePrint
+Setting up flask using BluePrint and adds our url prefix
 """
 
 from flask import Blueprint
