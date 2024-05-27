@@ -63,7 +63,7 @@ def post_user():
 def alter_user(user_id):
     """alters a User based on the ID passed"""
     if not request.is_json:
-        return jsonify({'Not a JSON'}), 400
+        return (jsonify({'Not a JSON'}), 400)
 
     data = request.get_json()
 

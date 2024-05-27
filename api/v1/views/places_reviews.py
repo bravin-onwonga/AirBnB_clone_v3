@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Handles all default RESTFul API actions
+Handles all default RESTFul API actions for Review class
+Methods:GET, POST, PUT and DELETE
 """
 
 from flask import abort, jsonify, request
