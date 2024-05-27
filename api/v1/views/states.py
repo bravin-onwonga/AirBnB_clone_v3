@@ -11,7 +11,7 @@ from models.state import State
 
 
 @app_views.route('/states', methods=['GET'])
-def all():
+def all_states():
     """Gets all state objects from storage"""
     my_list = []
     objs_dict = storage.all(State)

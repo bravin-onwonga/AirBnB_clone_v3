@@ -39,7 +39,7 @@ def find_place(place_id):
 
 
 @app_views.route('/places/<place_id>', methods=['DELETE'])
-def delete_Place(place_id):
+def delete_place(place_id):
     """Deletes a Place based on the ID passed"""
     obj = storage.get(Place, place_id)
 
@@ -71,7 +71,7 @@ def post_place(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'])
-def alter_Place(place_id):
+def alter_place(place_id):
     """alters a Place based on the ID passed"""
     if not request.is_json:
         return jsonify({'Not a JSON'}), 400

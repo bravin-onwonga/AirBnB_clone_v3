@@ -40,7 +40,7 @@ def find_review(review_id):
 
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'])
-def delete_Place(review_id):
+def delete_review(review_id):
     """Deletes a review based on the ID passed"""
     obj = storage.get(Review, review_id)
 
