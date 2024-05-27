@@ -5,14 +5,13 @@ Contains the class DBStorage
 
 import models
 from models.amenity import Amenity
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
 from os import getenv
-import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -78,7 +77,8 @@ class DBStorage:
     def get(self, cls, id):
         """Gets an item from the file storage"""
         cls_name = classes[cls.__name__]
-        obj_info = self.__session.query(cls_name).filter(cls_name.id == id).first()
+        obj_info = self.__session.query(cls_name).\
+            filter(cls_name.id == id).first()
         return obj_info
 
     def count(self, cls=None):
@@ -86,10 +86,10 @@ class DBStorage:
         if (cls):
             res = self.__session.query(cls).all()
 
-            return(len(res))
+            return (len(res))
         else:
             count = 0
             for cls_name in classes.values():
                 res = self.__session.query(cls_name).all()
                 count += len(res)
-            return(count)
+            return (count)
