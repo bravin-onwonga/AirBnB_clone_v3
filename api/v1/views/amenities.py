@@ -27,7 +27,7 @@ def find_amenity(amenity_id):
     obj = storage.get(Amenity, amenity_id)
 
     if obj:
-        return (jsonify({obj.to_dict()}))
+        return (obj.to_dict())
     else:
         abort(404)
 

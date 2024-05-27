@@ -35,7 +35,7 @@ def find_review(review_id):
     review = storage.get(Review, review_id)
 
     if review:
-        return (jsonify({review.to_dict()}))
+        return (review.to_dict())
     else:
         abort(404)
 

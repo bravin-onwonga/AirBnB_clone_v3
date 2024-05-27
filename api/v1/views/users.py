@@ -27,7 +27,7 @@ def find_user(user_id):
     obj = storage.get(User, user_id)
 
     if obj:
-        return (jsonify({obj.to_dict()}))
+        return (obj.to_dict())
     else:
         abort(404)
 

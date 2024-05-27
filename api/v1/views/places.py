@@ -33,7 +33,7 @@ def find_place(place_id):
     obj = storage.get(Place, place_id)
 
     if obj:
-        return (jsonify({obj.to_dict()}))
+        return (obj.to_dict())
     else:
         abort(404)
 
