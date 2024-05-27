@@ -9,11 +9,14 @@ from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
+from flask_cors import CORS
 
 app = Flask(__name__)
-app.url_map.strict_slashes = False
 
 app.register_blueprint(app_views)
+app.url_map.strict_slashes = False
+
+CORS(app, resources={r"app/v1/*": {"origins": "*"}})
 
 
 @app.teardown_appcontext
@@ -31,7 +34,7 @@ def handle_404_error(ex):
 if __name__ == "__main__":
     my_host = getenv('HBNB_API_HOST')
     if not (my_host):
-        my_host = 'localhost'
+        my_host = '0.0.0.0'
 
     my_port = getenv('HBNB_API_PORT')
     if not (my_port):
