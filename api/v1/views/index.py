@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Module to handle RESTFul api actions"""
 
 from flask import jsonify
 from api.v1.views import app_views

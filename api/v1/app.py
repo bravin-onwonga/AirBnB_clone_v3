@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Module to handle RESTFul api actions"""
 
 from flask import Flask, jsonify
 from models import storage
@@ -6,6 +7,7 @@ from api.v1.views import app_views
 from os import getenv
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 app.register_blueprint(app_views)
 
@@ -14,6 +16,7 @@ app.register_blueprint(app_views)
 def close(exception):
     """Calls the close method based on the storage"""
     storage.close()
+
 
 @app.errorhandler(404)
 def handle_404_error(ex):
