@@ -20,6 +20,7 @@ def users_all():
         my_list.append(obj_to_dict)
     return (jsonify(my_list))
 
+
 @app_views.route('/users/<user_id>', methods=['GET'])
 def find_user(user_id):
     """Finds a User based on the ID passed"""

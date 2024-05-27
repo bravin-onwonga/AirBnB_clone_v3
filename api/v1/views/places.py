@@ -26,6 +26,7 @@ def places_all(city_id):
             my_list.append(obj_to_dict)
     return (jsonify(my_list))
 
+
 @app_views.route('/places/<place_id>', methods=['GET'])
 def find_place(place_id):
     """Finds a Place object based on the ID passed"""

@@ -10,6 +10,7 @@ from models import storage
 from models.review import Review
 from models.user import User
 
+
 @app_views.route('places/<place_id>/reviews', methods=['GET'])
 def all_reviews(place_id):
     """Lists all reviews tied to place"""
