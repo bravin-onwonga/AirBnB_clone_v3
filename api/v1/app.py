@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 from os import getenv
@@ -15,6 +15,11 @@ def close(exception):
     """Calls the close method based on the storage"""
     storage.close()
 
+@app.errorhandler(404)
+def handle_404_error(ex):
+    """Handles the page not found(404) error"""
+    return (jsonify({"error": "Not found"}))
+
 
 if __name__ == "__main__":
     my_host = getenv('HBNB_API_HOST')
@@ -25,4 +30,4 @@ if __name__ == "__main__":
     if not (my_port):
         my_port = 5000
 
-    app.run(host=my_host, port=my_port, threaded=True)
+    app.run(host=my_host, port=my_port, threaded=True, debug=True)
