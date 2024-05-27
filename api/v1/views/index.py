@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
 Module to handle RESTFul api actions
+Methods:GET, POST, PUT and DELETE
 """
 
 from flask import jsonify
