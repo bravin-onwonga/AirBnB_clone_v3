@@ -31,9 +31,7 @@ def city_all(state_id):
                  strict_slashes=False, methods=['GET'])
 def find_city(city_id):
     """Finds a City based on the ID passed"""
-    objs_dict = storage.all(City)
-    key = 'City.{}'.format(city_id)
-    obj = objs_dict.get(key)
+    obj = storage.get(City, city_id)
 
     if obj:
         return jsonify(obj.to_dict()), 200
@@ -45,9 +43,7 @@ def find_city(city_id):
                  strict_slashes=False, methods=['DELETE'])
 def delete_city(city_id):
     """Deletes a City based on the ID passed"""
-    objs_dict = storage.all(City)
-    key = 'City.{}'.format(city_id)
-    obj = objs_dict.get(key)
+    obj = storage.get(City, city_id)
 
     if obj:
         storage.delete(obj)
