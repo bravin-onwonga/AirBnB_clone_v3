@@ -27,7 +27,7 @@ def close(exception):
 @app.errorhandler(404)
 def handle_404_error(ex):
     """Handles the page not found(404) error"""
-    return (jsonify({"error": "Not found"}))
+    return (jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":

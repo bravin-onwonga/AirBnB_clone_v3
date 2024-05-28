@@ -24,9 +24,7 @@ def all_states():
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
 def find_state(state_id):
     """Finds a state based on the ID passed"""
-    objs_dict = storage.all(State)
-    key = 'State.{}'.format(state_id)
-    obj = objs_dict.get(key)
+    obj = storage.get(State, state_id)
 
     if obj:
         return jsonify(obj.to_dict())
@@ -38,9 +36,7 @@ def find_state(state_id):
                  strict_slashes=False, methods=['DELETE'])
 def delete_state(state_id):
     """Deletes a state based on the ID passed"""
-    objs_dict = storage.all(State)
-    key = 'State.{}'.format(state_id)
-    obj = objs_dict.get(key)
+    obj = storage.get(State, state_id)
 
     if obj:
         storage.delete(obj)
