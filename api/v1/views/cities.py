@@ -69,6 +69,8 @@ def post_city(state_id):
         abort(404)
     if not (data.get('name')):
         abort(400, 'Missing name')
+
+    data['state_id'] = state_id
     obj = City(**data)
     storage.new(obj)
     storage.save()
