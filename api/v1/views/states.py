@@ -49,9 +49,11 @@ def delete_state(state_id):
 @app_views.route('/states', strict_slashes=False, methods=['POST'])
 def post_state():
     """Makes a post request"""
-    if not request.is_json:
-        abort(400, 'Not a JSON')
     data = request.get_json()
+
+    if not data:
+        abort(400, 'Not a JSON')
+
     if 'name' not in data:
         abort(400, 'Missing name')
     obj = State(**data)
@@ -63,10 +65,10 @@ def post_state():
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def alter_state(state_id):
     """alters a state based on the ID passed"""
-    if not request.is_json:
-        abort(400, 'Not a JSON')
-
     data = request.get_json()
+
+    if not data:
+        abort(400, 'Not a JSON')
 
     obj = storage.get(State, state_id)
 

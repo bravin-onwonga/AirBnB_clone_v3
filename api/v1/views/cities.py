@@ -77,10 +77,10 @@ def post_city(state_id):
                  strict_slashes=False, methods=['PUT'])
 def alter_city(city_id):
     """alters a City based on the ID passed"""
-    if not request.is_json:
-        abort(400, 'Not a JSON')
-
     data = request.get_json()
+
+    if not data:
+        abort(400, 'Not a JSON')
 
     obj = storage.get(City, city_id)
 
