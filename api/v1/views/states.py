@@ -18,7 +18,7 @@ def all_states():
     for item in objs_dict.values():
         obj_to_dict = item.to_dict()
         my_list.append(obj_to_dict)
-    return (jsonify(my_list)), 200
+    return jsonify(my_list), 200
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
@@ -41,7 +41,7 @@ def delete_state(state_id):
     if obj:
         storage.delete(obj)
         storage.save()
-        return (jsonify({})), 200
+        return jsonify({}), 200
     else:
         abort(404)
 
