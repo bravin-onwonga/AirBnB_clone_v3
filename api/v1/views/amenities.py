@@ -18,7 +18,7 @@ def amenities_all():
     for item in objs_dict.values():
         obj_to_dict = item.to_dict()
         my_list.append(obj_to_dict)
-    return jsonify(my_list)
+    return jsonify(my_list), 200
 
 
 @app_views.route('/amenities/<amenity_id>',
@@ -28,7 +28,7 @@ def find_amenity(amenity_id):
     obj = storage.get(Amenity, amenity_id)
 
     if obj:
-        return (obj.to_dict())
+        return jsonify(obj.to_dict()), 200
     else:
         abort(404)
 
@@ -51,9 +51,11 @@ def delete_amenity(amenity_id):
                  strict_slashes=False, methods=['POST'])
 def post_amenity():
     """Makes a post request"""
-    if not request.is_json:
-        abort(400, 'Not a JSON')
     data = request.get_json()
+
+    if not data:
+        abort(400, 'Not a JSON')
+
     if not (data.get('name')):
         abort(400, 'Missing name')
     obj = Amenity(**data)
@@ -66,10 +68,10 @@ def post_amenity():
                  strict_slashes=False, methods=['PUT'])
 def alter_amenity(amenity_id):
     """alters a Amenity based on the ID passed"""
-    if not request.is_json:
-        abort(400, 'Not a JSON')
-
     data = request.get_json()
+
+    if not data:
+        abort(400, 'Not a JSON')
 
     if not (data.get('name')):
         return jsonify('Missing name'), 400
