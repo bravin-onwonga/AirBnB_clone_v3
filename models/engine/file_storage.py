@@ -74,9 +74,8 @@ class FileStorage:
         if cls is None or id is None:
             return None
         if isinstance(cls, str):
-            key = "{}.{}".format(cls, id)
-        else:
-            key = "{}.{}".format(cls.__name__, id)
+            cls = classes[cls]
+        key = "{}.{}".format(cls.__name__, id)
         obj = self.all().get(key)
         return obj
 
