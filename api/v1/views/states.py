@@ -10,7 +10,7 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states', methods=['GET'])
+@app_views.route('/states', strict_slashes=False, methods=['GET'])
 def all_states():
     """Gets all state objects from storage"""
     my_list = []
@@ -21,7 +21,7 @@ def all_states():
     return (jsonify(my_list))
 
 
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
 def find_state(state_id):
     """Finds a state based on the ID passed"""
     objs_dict = storage.all(State)
@@ -34,7 +34,7 @@ def find_state(state_id):
         abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', strict_slashes=False, methods=['DELETE'])
 def delete_state(state_id):
     """Deletes a state based on the ID passed"""
     objs_dict = storage.all(State)
@@ -48,7 +48,7 @@ def delete_state(state_id):
         abort(404)
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states', strict_slashes=False, methods=['POST'])
 def post_state():
     """Makes a post request"""
     if not request.is_json:
@@ -61,7 +61,7 @@ def post_state():
     return (jsonify(obj.to_dict()), 201)
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
 def alter_state(state_id):
     """alters a state based on the ID passed"""
     if not request.is_json:

@@ -15,13 +15,13 @@ from models.user import User
 from models import storage
 
 
-@app_views.route('/status', methods=['GET'])
+@app_views.route('/status', strict_slashes=False, methods=['GET'])
 def status():
     """Simple route that prints an custom response"""
     return (jsonify({'status': 'OK'}))
 
 
-@app_views.route('/stats', methods=['GET'])
+@app_views.route('/stats', strict_slashes=False, methods=['GET'])
 def stats():
     """Calls the count method in storage for all classes"""
     my_dict = {}

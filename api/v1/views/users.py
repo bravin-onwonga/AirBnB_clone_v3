@@ -10,7 +10,7 @@ from models import storage
 from models.user import User
 
 
-@app_views.route('/users', methods=['GET'])
+@app_views.route('/users', strict_slashes=False, methods=['GET'])
 def users_all():
     """Gets all User objects from storage"""
     my_list = []
@@ -21,7 +21,7 @@ def users_all():
     return (jsonify(my_list))
 
 
-@app_views.route('/users/<user_id>', methods=['GET'])
+@app_views.route('/users/<user_id>', strict_slashes=False, methods=['GET'])
 def find_user(user_id):
     """Finds a User based on the ID passed"""
     obj = storage.get(User, user_id)
@@ -32,7 +32,7 @@ def find_user(user_id):
         abort(404)
 
 
-@app_views.route('/users/<user_id>', methods=['DELETE'])
+@app_views.route('/users/<user_id>', strict_slashes=False, methods=['DELETE'])
 def delete_user(user_id):
     """Deletes a User based on the ID passed"""
     obj = storage.get(User, user_id)
@@ -44,7 +44,7 @@ def delete_user(user_id):
         abort(404)
 
 
-@app_views.route('/users', methods=['POST'])
+@app_views.route('/users', strict_slashes=False, methods=['POST'])
 def post_user():
     """Makes a post request"""
     if not request.is_json:
@@ -59,7 +59,7 @@ def post_user():
     return (jsonify(obj.to_dict()), 201)
 
 
-@app_views.route('/users/<user_id>', methods=['PUT'])
+@app_views.route('/users/<user_id>', strict_slashes=False, methods=['PUT'])
 def alter_user(user_id):
     """alters a User based on the ID passed"""
     if not request.is_json:
