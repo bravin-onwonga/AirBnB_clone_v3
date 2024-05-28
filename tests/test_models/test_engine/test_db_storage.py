@@ -92,6 +92,7 @@ class TestDBStorage(unittest.TestCase):
         """Tests my get method"""
         state = State()
         DBStorage.new(state)
+        DBStorage.save()
         state_id = state.id
 
         state_got = DBStorage.get(State, state_id)
@@ -104,6 +105,7 @@ class TestDBStorage(unittest.TestCase):
 
         state = State()
         DBStorage.new(state)
+        DBStorage.save()
 
         count_after = DBStorage.count(State)
 
@@ -118,6 +120,7 @@ class TestDBStorage(unittest.TestCase):
 
         DBStorage.new(State())
         DBStorage.new(User())
+        DBStorage.save()
 
         count_after = DBStorage.count()
 

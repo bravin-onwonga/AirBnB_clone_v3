@@ -121,6 +121,7 @@ class TestFileStorage(unittest.TestCase):
         storage = FileStorage()
         obj = State()
         storage.new(obj)
+        storage.save()
 
         obj_got = storage.get(State, obj.id)
 
@@ -137,6 +138,8 @@ class TestFileStorage(unittest.TestCase):
 
         storage.new(s1)
         storage.new(s2)
+        storage.save()
+
         new_count = storage.count()
 
         self.assertNotEqual(count, new_count)
@@ -149,6 +152,7 @@ class TestFileStorage(unittest.TestCase):
 
         storage.new(s3)
         storage.new(s4)
+        storage.save()
 
         cls_case_new_count = storage.count(State)
 
