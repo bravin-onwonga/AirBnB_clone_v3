@@ -24,7 +24,7 @@ def city_all(state_id):
         obj_to_dict = item.to_dict()
         if (obj_to_dict.get('state_id') == state_id):
             my_list.append(obj_to_dict)
-    return (jsonify(my_list))
+    return jsonify(my_list)
 
 
 @app_views.route('/cities/<city_id>',
@@ -52,7 +52,7 @@ def delete_city(city_id):
     if obj:
         storage.delete(obj)
         storage.save()
-        return (jsonify({}), 200)
+        return jsonify({}), 200
     else:
         abort(404)
 
@@ -72,7 +72,7 @@ def post_city(state_id):
     obj = City(**data)
     storage.new(obj)
     storage.save()
-    return (jsonify(obj.to_dict()), 201)
+    return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/cities/<city_id>',
@@ -80,7 +80,7 @@ def post_city(state_id):
 def alter_city(city_id):
     """alters a City based on the ID passed"""
     if not request.is_json:
-        return jsonify({'Not a JSON'}), 400
+        abort(400, 'Not a JSON')
 
     data = request.get_json()
 
@@ -88,12 +88,10 @@ def alter_city(city_id):
 
     if obj:
         lst = ['id', 'updated_at', 'created_at', 'state_id']
-        for key in lst:
-            if data.get(key):
-                del data[key]
         for key, value in data.items():
-            setattr(obj, key, value)
+            if key not in lst:
+                setattr(obj, key, value)
         storage.save()
-        return (jsonify(obj.to_dict()), 200)
+        return jsonify(obj.to_dict()), 200
     else:
         abort(404)

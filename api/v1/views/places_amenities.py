@@ -10,7 +10,8 @@ from models import storage
 import models
 from models.place import Place
 
-@app_views.route('places/<place_id>/amenities', strict_false=False, methods=['GET'])
+@app_views.route('places/<place_id>/amenities',
+                 strict_false=False, methods=['GET'])
 def all_Place_amenities(place_id):
     """Lists all amenities linked to a place"""
     place = storage.get(Place, place_id)

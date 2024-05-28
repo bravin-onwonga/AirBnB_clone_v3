@@ -18,7 +18,7 @@ def amenities_all():
     for item in objs_dict.values():
         obj_to_dict = item.to_dict()
         my_list.append(obj_to_dict)
-    return (jsonify(my_list))
+    return jsonify(my_list)
 
 
 @app_views.route('/amenities/<amenity_id>',
@@ -42,7 +42,7 @@ def delete_amenity(amenity_id):
     if obj:
         storage.delete(obj)
         storage.save()
-        return (jsonify({}), 200)
+        return jsonify({}), 200
     else:
         abort(404)
 
@@ -52,14 +52,14 @@ def delete_amenity(amenity_id):
 def post_amenity():
     """Makes a post request"""
     if not request.is_json:
-        return (jsonify('Not a JSON'), 400)
+        abort(400, 'Not a JSON')
     data = request.get_json()
     if not (data.get('name')):
-        return (jsonify('Missing name'), 400)
+        abort(400, 'Missing name')
     obj = Amenity(**data)
     storage.new(obj)
     storage.save()
-    return (jsonify(obj.to_dict()), 201)
+    return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/amenities/<amenity_id>',
@@ -67,22 +67,20 @@ def post_amenity():
 def alter_amenity(amenity_id):
     """alters a Amenity based on the ID passed"""
     if not request.is_json:
-        return jsonify({'Not a JSON'}), 400
+        abort(400, 'Not a JSON')
 
     data = request.get_json()
 
     if not (data.get('name')):
-        return (jsonify('Missing name'), 400)
+        return jsonify('Missing name'), 400
     obj = storage.get(Amenity, amenity_id)
 
     if obj:
         lst = ['id', 'updated_at', 'created_at']
-        for key in lst:
-            if data.get(key):
-                del data[key]
         for key, value in data.items():
-            setattr(obj, key, value)
+            if key not in lst:
+                setattr(obj, key, value)
         storage.save()
-        return (jsonify(obj.to_dict()), 200)
+        return jsonify(obj.to_dict()), 200
     else:
         abort(404)

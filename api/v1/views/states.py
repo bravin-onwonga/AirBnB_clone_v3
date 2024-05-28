@@ -52,7 +52,7 @@ def post_state():
     if not request.is_json:
         abort(400, 'Not a JSON')
     data = request.get_json()
-    if not (data.get('name')):
+    if 'name' not in data:
         abort(400, 'Missing name')
     obj = State(**data)
     storage.new(obj)
@@ -72,11 +72,9 @@ def alter_state(state_id):
 
     if obj:
         lst = ['id', 'updated_at', 'created_at']
-        for key in lst:
-            if data.get(key):
-                del data[key]
         for key, value in data.items():
-            setattr(obj, key, value)
+            if key not in lst:
+                setattr(obj, key, value)
         storage.save()
         return jsonify(obj.to_dict()), 200
     else:
