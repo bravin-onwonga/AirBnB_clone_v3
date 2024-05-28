@@ -76,20 +76,20 @@ class DBStorage:
 
     def get(self, cls, id):
         """Gets an item from the file storage"""
-        cls_name = classes[cls.__name__]
-        obj_info = self.__session.query(cls_name).\
-            filter(cls_name.id == id).first()
-        return obj_info
+        if cls is None or id is None:
+            return None
+        if isinstance(cls, str):
+            key = "{}.{}".format(cls, id)
+        else:
+            key = "{}.{}".format(cls.__name__, id)
+        obj = self.all(cls).get(key)
+        return obj
 
     def count(self, cls=None):
         """Count item or items base on class from the file storage"""
         if (cls):
-            res = self.__session.query(cls).all()
-
+            res = self.all(cls)
             return (len(res))
         else:
-            count = 0
-            for cls_name in classes.values():
-                res = self.__session.query(cls_name).all()
-                count += len(res)
-            return (count)
+            res = self.all()
+            return (len(res))

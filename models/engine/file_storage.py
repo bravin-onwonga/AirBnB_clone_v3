@@ -71,7 +71,13 @@ class FileStorage:
 
     def get(self, cls, id):
         """Gets an item from the file storage"""
-        obj = self.__objects.get("{}.{}".format(cls.__name__, id))
+        if cls is None or id is None:
+            return None
+        if isinstance(cls, str):
+            key = "{}.{}".format(cls, id)
+        else:
+            key = "{}.{}".format(cls.__name__, id)
+        obj = self.all().get(key)
         return obj
 
     def count(self, cls=None):
