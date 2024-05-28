@@ -18,7 +18,7 @@ def all_states():
     for item in objs_dict.values():
         obj_to_dict = item.to_dict()
         my_list.append(obj_to_dict)
-    return (jsonify(my_list), 200)
+    return (jsonify(my_list)), 200
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
@@ -27,7 +27,7 @@ def find_state(state_id):
     obj = storage.get(State, state_id)
 
     if obj:
-        return jsonify(obj.to_dict(), 200)
+        return jsonify(obj.to_dict()), 200
     else:
         abort(404)
 
@@ -41,7 +41,7 @@ def delete_state(state_id):
     if obj:
         storage.delete(obj)
         storage.save()
-        return (jsonify({}), 200)
+        return (jsonify({})), 200
     else:
         abort(404)
 
@@ -57,7 +57,7 @@ def post_state():
     obj = State(**data)
     storage.new(obj)
     storage.save()
-    return (jsonify(obj.to_dict()), 201)
+    return jsonify(obj.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['PUT'])
@@ -78,6 +78,6 @@ def alter_state(state_id):
         for key, value in data.items():
             setattr(obj, key, value)
         storage.save()
-        return (jsonify(obj.to_dict()), 200)
+        return jsonify(obj.to_dict()), 200
     else:
         abort(404)
