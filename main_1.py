@@ -1,68 +1,53 @@
 #!/usr/bin/python3
-import inspect
-import io
-import sys
-import cmd
-import shutil
-import os
-
+"""Testing file
 """
- Backup console file
-"""
-if os.path.exists("tmp_console_main.py"):
-    shutil.copy("tmp_console_main.py", "console.py")
-shutil.copy("console.py", "tmp_console_main.py")
+import json
+import requests
+
+if __name__ == "__main__":
+    """ get the state with cities
+    """
+    r = requests.get("http://0.0.0.0:5050/api/v1/states")
+    r_j = r.json()
+
+    state_id = None
+    for state_j in r_j:
+        rs = requests.get("http://0.0.0.0:5050/api/v1/states/{}/cities".format(state_j.get('id')))
+        rs_j = rs.json()
+        if len(rs_j) != 0:
+            state_id = state_j.get('id')
+            break
+
+    if state_id is None:
+        print("State with cities not found")
+
+    """ get city
+    """
+    r = requests.get("http://0.0.0.0:5050/api/v1/states/{}/cities".format(state_id))
+    r_j = r.json()
+    city_id = None
+    for city_j in r_j:
+        rc = requests.get("http://0.0.0.0:5050/api/v1/cities/{}/places".format(city_j.get('id')))
+        rc_j = rc.json()
+        if len(rc_j) != 0:
+            city_id = city_j.get('id')
+            break
+
+    if city_id is None:
+        print("City without cities not found")
+
+    """ Get user
+    """
+    r = requests.get("http://0.0.0.0:5050/api/v1/users")
+    r_j = r.json()
+    user_id = r_j[0].get('id')
 
 
-"""
- Updating console to remove "__main__"
-"""
-with open("tmp_console_main.py", "r") as file_i:
-    console_lines = file_i.readlines()
-    with open("console.py", "w") as file_o:
-        in_main = False
-        for line in console_lines:
-            if "__main__" in line:
-                in_main = True
-            elif in_main:
-                if "cmdloop" not in line:
-                    file_o.write(line.lstrip("    "))
-            else:
-                file_o.write(line)
-
-import console
-
-
-"""
- Create console
-"""
-console_obj = "HBNBCommand"
-for name, obj in inspect.getmembers(console):
-    if inspect.isclass(obj) and issubclass(obj, cmd.Cmd):
-        console_obj = obj
-
-my_console = console_obj(stdout=io.StringIO(), stdin=io.StringIO())
-my_console.use_rawinput = False
-
-
-"""
- Exec command
-"""
-def exec_command(my_console, the_command, last_lines = 1):
-    my_console.stdout = io.StringIO()
-    real_stdout = sys.stdout
-    sys.stdout = my_console.stdout
-    my_console.onecmd(the_command)
-    sys.stdout = real_stdout
-    lines = my_console.stdout.getvalue().split("\n")
-    return "\n".join(lines[(-1*(last_lines+1)):-1])
-
-
-"""
- Tests
-"""
-# States
-exec_command(my_console, "all State")
-print("OK", end="")
-
-shutil.copy("tmp_console_main.py", "console.py")
+    """ POST /api/v1/cities/<city_id>/places
+    """
+    r = requests.post("http://0.0.0.0:5050/api/v1/cities/{}/places/".format(city_id), data=json.dumps({ 'user_id': user_id, 'name': "NewPlace", 'number_rooms': 4, 'number_bathrooms': 3, 'max_guest': 6, 'price_by_night': 100, 'latitude': 1.3, 'longitude': 2.3 }), headers={ 'Content-Type': "application/json" })
+    print(r.status_code)
+    r_j = r.json()
+    print(r_j.get('id') is None)
+    print(r_j.get('user_id') == user_id)
+    print(r_j.get('name') == "NewPlace")

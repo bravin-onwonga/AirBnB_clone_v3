@@ -62,13 +62,13 @@ def delete_city(city_id):
 def post_city(state_id):
     """Makes a post request"""
     if not request.is_json:
-        return (jsonify('Not a JSON'), 400)
+        abort(400, 'Not a JSON')
     data = request.get_json()
     state = storage.get(State, state_id)
     if not (state):
         abort(404)
     if not (data.get('name')):
-        return (jsonify('Missing name'), 400)
+        abort(400, 'Missing name')
     obj = City(**data)
     storage.new(obj)
     storage.save()
@@ -84,8 +84,6 @@ def alter_city(city_id):
 
     data = request.get_json()
 
-    if not (data.get('name')):
-        return (jsonify('Missing name'), 400)
     obj = storage.get(City, city_id)
 
     if obj:

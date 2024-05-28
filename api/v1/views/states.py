@@ -18,7 +18,7 @@ def all_states():
     for item in objs_dict.values():
         obj_to_dict = item.to_dict()
         my_list.append(obj_to_dict)
-    return (jsonify(my_list))
+    return (jsonify(my_list), 200)
 
 
 @app_views.route('/states/<state_id>', strict_slashes=False, methods=['GET'])
@@ -27,7 +27,7 @@ def find_state(state_id):
     obj = storage.get(State, state_id)
 
     if obj:
-        return jsonify(obj.to_dict())
+        return jsonify(obj.to_dict(), 200)
     else:
         abort(404)
 
@@ -50,10 +50,10 @@ def delete_state(state_id):
 def post_state():
     """Makes a post request"""
     if not request.is_json:
-        return (jsonify('Not a JSON'), 400)
+        abort(400, 'Not a JSON')
     data = request.get_json()
     if not (data.get('name')):
-        return (jsonify('Missing name'), 400)
+        abort(400, 'Missing name')
     obj = State(**data)
     storage.new(obj)
     storage.save()
@@ -64,12 +64,10 @@ def post_state():
 def alter_state(state_id):
     """alters a state based on the ID passed"""
     if not request.is_json:
-        return jsonify({'Not a JSON'}), 400
+        abort(400, 'Not a JSON')
 
     data = request.get_json()
 
-    if not (data.get('name')):
-        return (jsonify('Missing name'), 400)
     obj = storage.get(State, state_id)
 
     if obj:
