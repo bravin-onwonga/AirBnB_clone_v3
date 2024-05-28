@@ -48,6 +48,7 @@ def delete_place(place_id):
 
     if obj:
         storage.delete(obj)
+        storage.save()
         return (jsonify({}), 200)
     else:
         abort(404)
@@ -71,6 +72,7 @@ def post_place(city_id):
         abort(404)
     obj = Place(**data)
     storage.new(obj)
+    storage.save()
     return (jsonify(obj.to_dict()), 201)
 
 

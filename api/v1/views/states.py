@@ -40,6 +40,7 @@ def delete_state(state_id):
 
     if obj:
         storage.delete(obj)
+        storage.save()
         return (jsonify({}), 200)
     else:
         abort(404)
@@ -55,6 +56,7 @@ def post_state():
         return (jsonify('Missing name'), 400)
     obj = State(**data)
     storage.new(obj)
+    storage.save()
     return (jsonify(obj.to_dict()), 201)
 
 

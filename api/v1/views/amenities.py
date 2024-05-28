@@ -41,6 +41,7 @@ def delete_amenity(amenity_id):
 
     if obj:
         storage.delete(obj)
+        storage.save()
         return (jsonify({}), 200)
     else:
         abort(404)
@@ -57,6 +58,7 @@ def post_amenity():
         return (jsonify('Missing name'), 400)
     obj = Amenity(**data)
     storage.new(obj)
+    storage.save()
     return (jsonify(obj.to_dict()), 201)
 
 

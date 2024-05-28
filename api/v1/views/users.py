@@ -39,6 +39,7 @@ def delete_user(user_id):
 
     if obj:
         storage.delete(obj)
+        storage.save()
         return (jsonify({}), 200)
     else:
         abort(404)
@@ -56,6 +57,7 @@ def post_user():
         return (jsonify('Missing password'), 400)
     obj = User(**data)
     storage.new(obj)
+    storage.save()
     return (jsonify(obj.to_dict()), 201)
 
 

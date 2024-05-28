@@ -51,6 +51,7 @@ def delete_city(city_id):
 
     if obj:
         storage.delete(obj)
+        storage.save()
         return (jsonify({}), 200)
     else:
         abort(404)
@@ -70,6 +71,7 @@ def post_city(state_id):
         return (jsonify('Missing name'), 400)
     obj = City(**data)
     storage.new(obj)
+    storage.save()
     return (jsonify(obj.to_dict()), 201)
 
 
