@@ -76,6 +76,10 @@ class DBStorage:
 
     def get(self, cls, id):
         """Gets an item from the file storage"""
+        if cls is None or id is None:
+            return None
+        if isinstance(cls, str):
+            cls = classes[cls]
         cls_name = classes[cls.__name__]
         obj_info = self.__session.query(cls_name).\
             filter(cls_name.id == id).first()
