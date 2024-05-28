@@ -18,7 +18,7 @@ def users_all():
     for item in objs_dict.values():
         obj_to_dict = item.to_dict()
         my_list.append(obj_to_dict)
-    return jsonify(my_list)
+    return jsonify(my_list), 200
 
 
 @app_views.route('/users/<user_id>', strict_slashes=False, methods=['GET'])
@@ -27,7 +27,7 @@ def find_user(user_id):
     obj = storage.get(User, user_id)
 
     if obj:
-        return (obj.to_dict())
+        return jsonify(obj.to_dict()), 200
     else:
         abort(404)
 
@@ -48,9 +48,9 @@ def delete_user(user_id):
 @app_views.route('/users', strict_slashes=False, methods=['POST'])
 def post_user():
     """Makes a post request"""
-    if not request.is_json:
-        abort(400, 'Not a JSON')
     data = request.get_json()
+    if not data:
+        abort(400, 'Not a JSON')
     if not (data.get('email')):
         abort(400, 'Missing email')
     if not (data.get('password')):

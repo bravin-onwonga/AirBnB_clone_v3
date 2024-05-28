@@ -5,29 +5,13 @@ import json
 import requests
 
 if __name__ == "__main__":
-    """ get the state with cities
+    """ Get one amenity
     """
-    r = requests.get("http://0.0.0.0:5050/api/v1/states")
+    r = requests.get("http://0.0.0.0:5050/api/v1/amenities")
     r_j = r.json()
+    amenity_id = r_j[0].get('id')
 
-    state_id = None
-    for state_j in r_j:
-        rs = requests.get("http://0.0.0.0:5050/api/v1/states/{}/cities".format(state_j.get('id')))
-        rs_j = rs.json()
-        if len(rs_j) != 0:
-            state_id = state_j.get('id')
-            break
-
-    if state_id is None:
-        print("State with cities not found")
-
-    """ Fetch cities
+    """ PUT /api/v1/amenities/<amenity_id>
     """
-    r = requests.get("http://0.0.0.0:5050/api/v1/states/{}/cities".format(state_id))
-    r_j = r.json()
-    city_id = r_j[0].get('id')
-
-    """ PUT /api/v1/cities/<city_id>
-    """
-    r = requests.put("http://0.0.0.0:5050/api/v1/cities/{}".format(city_id), data={ 'name': "NewName" }, headers={ 'Content-Type': "application/x-www-form-urlencoded" })
+    r = requests.put("http://0.0.0.0:5050/api/v1/amenities/{}".format(amenity_id), data={ 'name': "NewAmenityName" }, headers={ 'Content-Type': "application/x-www-form-urlencoded" })
     print(r.status_code)
