@@ -29,7 +29,7 @@ def find_state(state_id):
     obj = objs_dict.get(key)
 
     if obj:
-        return (obj.to_dict())
+        return obj.to_dict()
     else:
         abort(404)
 
@@ -58,7 +58,7 @@ def post_state():
         return (jsonify('Missing name'), 400)
     obj = State(**data)
     storage.new(obj)
-    return (jsonify(obj.to_dict()), 201)
+    return obj.to_dict(), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
@@ -81,6 +81,6 @@ def alter_state(state_id):
         for key, value in data.items():
             setattr(obj, key, value)
         storage.save()
-        return (jsonify(obj.to_dict()), 200)
+        return (obj.to_dict()), 200
     else:
         abort(404)
