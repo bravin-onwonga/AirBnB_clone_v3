@@ -1,18 +1,68 @@
 #!/usr/bin/python3
-"""Testing file
-"""
-import json
-import requests
+import inspect
+import io
+import sys
+import cmd
+import shutil
+import os
 
-if __name__ == "__main__":
-    r = requests.get("http://0.0.0.0:5000/api/v1/states")
-    r_j = r.json()
-    print(type(r_j))
-    print(len(r_j))
-    for state_j in r_j:
-        if state_j.get('name') in ["California", "Arizona", "Nevada", "Louisiana"]:
-            print("OK")
-        else:
-            print("Missing: {}".format(state_j.get('name')))
-        if state_j.get('id') is None:
-            print("Missing ID for State: {}".format(state_j.get('name')))
+"""
+ Backup console file
+"""
+if os.path.exists("tmp_console_main.py"):
+    shutil.copy("tmp_console_main.py", "console.py")
+shutil.copy("console.py", "tmp_console_main.py")
+
+
+"""
+ Updating console to remove "__main__"
+"""
+with open("tmp_console_main.py", "r") as file_i:
+    console_lines = file_i.readlines()
+    with open("console.py", "w") as file_o:
+        in_main = False
+        for line in console_lines:
+            if "__main__" in line:
+                in_main = True
+            elif in_main:
+                if "cmdloop" not in line:
+                    file_o.write(line.lstrip("    "))
+            else:
+                file_o.write(line)
+
+import console
+
+
+"""
+ Create console
+"""
+console_obj = "HBNBCommand"
+for name, obj in inspect.getmembers(console):
+    if inspect.isclass(obj) and issubclass(obj, cmd.Cmd):
+        console_obj = obj
+
+my_console = console_obj(stdout=io.StringIO(), stdin=io.StringIO())
+my_console.use_rawinput = False
+
+
+"""
+ Exec command
+"""
+def exec_command(my_console, the_command, last_lines = 1):
+    my_console.stdout = io.StringIO()
+    real_stdout = sys.stdout
+    sys.stdout = my_console.stdout
+    my_console.onecmd(the_command)
+    sys.stdout = real_stdout
+    lines = my_console.stdout.getvalue().split("\n")
+    return "\n".join(lines[(-1*(last_lines+1)):-1])
+
+
+"""
+ Tests
+"""
+# States
+exec_command(my_console, "all State")
+print("OK", end="")
+
+shutil.copy("tmp_console_main.py", "console.py")
