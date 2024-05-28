@@ -24,7 +24,7 @@ def city_all(state_id):
         obj_to_dict = item.to_dict()
         if (obj_to_dict.get('state_id') == state_id):
             my_list.append(obj_to_dict)
-    return jsonify(my_list)
+    return jsonify(my_list), 200
 
 
 @app_views.route('/cities/<city_id>',
@@ -36,7 +36,7 @@ def find_city(city_id):
     obj = objs_dict.get(key)
 
     if obj:
-        return (obj.to_dict())
+        return jsonify(obj.to_dict()), 200
     else:
         abort(404)
 
