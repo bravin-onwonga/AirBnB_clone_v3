@@ -12,7 +12,8 @@ from models.city import City
 from models.user import User
 
 
-@app_views.route('/cities/<city_id>/places', strict_slashes=False, methods=['GET'])
+@app_views.route('/cities/<city_id>/places',
+                 strict_slashes=False, methods=['GET'])
 def places_all(city_id):
     """Gets all Place objects from storage"""
     my_list = []
@@ -27,7 +28,8 @@ def places_all(city_id):
     return (jsonify(my_list))
 
 
-@app_views.route('/places/<place_id>', strict_slashes=False, methods=['GET'])
+@app_views.route('/places/<place_id>',
+                 strict_slashes=False, methods=['GET'])
 def find_place(place_id):
     """Finds a Place object based on the ID passed"""
     obj = storage.get(Place, place_id)
@@ -38,7 +40,8 @@ def find_place(place_id):
         abort(404)
 
 
-@app_views.route('/places/<place_id>', strict_slashes=False, methods=['DELETE'])
+@app_views.route('/places/<place_id>',
+                 strict_slashes=False, methods=['DELETE'])
 def delete_place(place_id):
     """Deletes a Place based on the ID passed"""
     obj = storage.get(Place, place_id)
@@ -50,7 +53,8 @@ def delete_place(place_id):
         abort(404)
 
 
-@app_views.route('/cities/<city_id>/places', strict_slashes=False, methods=['POST'])
+@app_views.route('/cities/<city_id>/places',
+                 strict_slashes=False, methods=['POST'])
 def post_place(city_id):
     """Makes a post request"""
     if not request.is_json:
@@ -70,7 +74,8 @@ def post_place(city_id):
     return (jsonify(obj.to_dict()), 201)
 
 
-@app_views.route('/places/<place_id>', strict_slashes=False, methods=['PUT'])
+@app_views.route('/places/<place_id>',
+                 strict_slashes=False, methods=['PUT'])
 def alter_place(place_id):
     """alters a Place based on the ID passed"""
     if not request.is_json:

@@ -21,7 +21,8 @@ def amenities_all():
     return (jsonify(my_list))
 
 
-@app_views.route('/amenities/<amenity_id>', strict_slashes=False, methods=['GET'])
+@app_views.route('/amenities/<amenity_id>',
+                 strict_slashes=False, methods=['GET'])
 def find_amenity(amenity_id):
     """Finds a Amenity based on the ID passed"""
     obj = storage.get(Amenity, amenity_id)
@@ -32,7 +33,8 @@ def find_amenity(amenity_id):
         abort(404)
 
 
-@app_views.route('/amenities/<amenity_id>', strict_slashes=False, methods=['DELETE'])
+@app_views.route('/amenities/<amenity_id>',
+                 strict_slashes=False, methods=['DELETE'])
 def delete_amenity(amenity_id):
     """Deletes a Amenity based on the ID passed"""
     obj = storage.get(Amenity, amenity_id)
@@ -44,7 +46,8 @@ def delete_amenity(amenity_id):
         abort(404)
 
 
-@app_views.route('/amenities', strict_slashes=False, methods=['POST'])
+@app_views.route('/amenities',
+                 strict_slashes=False, methods=['POST'])
 def post_amenity():
     """Makes a post request"""
     if not request.is_json:
@@ -57,7 +60,8 @@ def post_amenity():
     return (jsonify(obj.to_dict()), 201)
 
 
-@app_views.route('/amenities/<amenity_id>', strict_slashes=False, methods=['PUT'])
+@app_views.route('/amenities/<amenity_id>',
+                 strict_slashes=False, methods=['PUT'])
 def alter_amenity(amenity_id):
     """alters a Amenity based on the ID passed"""
     if not request.is_json:

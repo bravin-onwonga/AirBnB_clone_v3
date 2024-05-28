@@ -29,12 +29,13 @@ def find_state(state_id):
     obj = objs_dict.get(key)
 
     if obj:
-        return (obj.to_dict())
+        return jsonify(obj.to_dict())
     else:
         abort(404)
 
 
-@app_views.route('/states/<state_id>', strict_slashes=False, methods=['DELETE'])
+@app_views.route('/states/<state_id>',
+                 strict_slashes=False, methods=['DELETE'])
 def delete_state(state_id):
     """Deletes a state based on the ID passed"""
     objs_dict = storage.all(State)

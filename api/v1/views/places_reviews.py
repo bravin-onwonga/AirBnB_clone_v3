@@ -12,7 +12,8 @@ from models.review import Review
 from models.user import User
 
 
-@app_views.route('places/<place_id>/reviews', strict_slashes=False, methods=['GET'])
+@app_views.route('places/<place_id>/reviews',
+                 strict_slashes=False, methods=['GET'])
 def all_reviews(place_id):
     """Lists all reviews tied to place"""
     place = storage.get(Place, place_id)
@@ -29,7 +30,8 @@ def all_reviews(place_id):
         abort(404)
 
 
-@app_views.route('reviews/<review_id>', strict_slashes=False, methods=['GET'])
+@app_views.route('reviews/<review_id>',
+                 strict_slashes=False, methods=['GET'])
 def find_review(review_id):
     """Find a review based on ID passed"""
     review = storage.get(Review, review_id)
@@ -40,7 +42,8 @@ def find_review(review_id):
         abort(404)
 
 
-@app_views.route('/reviews/<review_id>', strict_slashes=False, methods=['DELETE'])
+@app_views.route('/reviews/<review_id>',
+                 strict_slashes=False, methods=['DELETE'])
 def delete_review(review_id):
     """Deletes a review based on the ID passed"""
     obj = storage.get(Review, review_id)
@@ -52,7 +55,8 @@ def delete_review(review_id):
         abort(404)
 
 
-@app_views.route('/places/<place_id>/reviews', strict_slashes=False, methods=['POST'])
+@app_views.route('/places/<place_id>/reviews',
+                 strict_slashes=False, methods=['POST'])
 def post_review(place_id):
     """Makes a post request"""
     if not request.is_json:
