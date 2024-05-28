@@ -88,9 +88,11 @@ def alter_city(city_id):
 
     if obj:
         lst = ['id', 'updated_at', 'created_at', 'state_id']
+        for key in lst:
+            if data.get(key):
+                del data[key]
         for key, value in data.items():
-            if key not in lst:
-                setattr(obj, key, value)
+            setattr(obj, key, value)
         storage.save()
         return jsonify(obj.to_dict()), 200
     else:
