@@ -71,10 +71,6 @@ class FileStorage:
 
     def get(self, cls, id):
         """Gets an item from the file storage"""
-        if cls is None or id is None:
-            return None
-        if isinstance(cls, str):
-            cls = classes[cls]
         obj = self.__objects.get("{}.{}".format(cls.__name__, id))
         return obj
 
